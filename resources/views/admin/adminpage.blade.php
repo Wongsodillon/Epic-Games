@@ -42,8 +42,11 @@
           @foreach ($games as $game)
             <tr>
               <td>{{$game->game_id}}</td>
-              <td>{{$game->name}}</td>
-              <td>{{$game->company}}</td>
+              <td>
+                <img src="{{Storage::url($game->url)}}" class="admin-poster">
+                {{$game->name}}
+              </td>
+              <td class="center-td">{{$game->company}}</td>
               <td>{{$game->genre_name}}</td>
               <td>
                 <a href="{{route("updategamepage", $game->game_id)}}" class="btn btn-primary">Edit</a>

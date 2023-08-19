@@ -18,7 +18,7 @@ use App\Http\Middleware\AdminMiddleware;
 */
 
 Route::get('/', [GameController::class, "guestPage"])->name("main");
-Route::match(["post", "get"], "/login", [UserController::class, "login"])->name("login");
+Route::post("/login", [UserController::class, "login"])->name("login");
 Route::get("/loginpage", [UserController::class, "loginPage"])->name("loginpage")->middleware("guest");
 Route::post("/register", [UserController::class, "register"])->name("register");
 Route::get("/registerpage", [UserController::class, "registerPage"])->name("registerpage")->middleware("guest");
