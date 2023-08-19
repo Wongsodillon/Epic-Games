@@ -31,7 +31,11 @@
             </div>
             <div class="wishlist-buttons">
               <a href="{{route("removefromwishlist", ["id" => $game->game_id])}}" class="remove-wishlist">Remove</a>
-              <a href="{{route("checkoutpage", ["id" => $game->game_id])}}" class="buy-wishlist">Buy Now</a>
+              @if ($game->release_date < now())
+                <a href="{{route("checkoutpage", ["id" => $game->game_id])}}" class="buy-wishlist">Buy Now</a>
+              @else
+                <a class="buy-wishlist">Coming Soon</a>
+              @endif
             </div>
           </div>
         </div>

@@ -59,7 +59,8 @@
             </tr>
           @endforeach
         </tbody>
-      </table>
+    </table>
+    {{$games->links("pagination::bootstrap-5")}}
     </main>
   @endif
 </body>

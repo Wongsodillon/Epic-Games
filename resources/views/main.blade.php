@@ -95,11 +95,18 @@
                 <img src="{{Storage::url($highlight->logo)}}" class="highlight-logo">
                 @if ($highlight->price == 0)
                     <p class="highlight-price" style="font-weight: bold;">FREE</p>
+                @elseif ($highlight->discount_percent != 0)
+                    <div class="highlight-discounts">
+                        <p class="highlight-price disc">IDR {{number_format($highlight->price)}}</p>
+                        <p class="highlight-price">IDR {{number_format($highlight->discounted_price)}}</p>
+                    </div>
                 @else
                     <p class="highlight-price">STARTING AT<strong style="font-size: 1.75rem;">    IDR {{number_format($highlight->discounted_price)}}</strong> </p>
                 @endif
                 <a href="{{route("gamedetails", ["id" => $highlight->game_id])}}" class="buy-highlight">
-                    @if($highlight->price == 0)
+                    @if ($highlight->release_date > now())
+                        COMING SOON
+                    @elseif($highlight->price == 0)
                         PLAY FOR FREE
                     @else
                         BUY NOW
@@ -155,7 +162,6 @@
               <img src="{{asset("images/free-icon.png")}}" class="free-icon">
               <p>Free Games</p>
             </div>
-            <a href="" class="view-more">View More</a>
           </div>
           <div class="free-games">
             @foreach ($currentlyFree as $game)

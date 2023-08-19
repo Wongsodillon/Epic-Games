@@ -32,7 +32,16 @@ class GameController extends Controller
         return $featuredGames;
     }
     public function getFreeGames() {
-        $currentlyFree = DB::table("games")->where("discount_percent", 100)->limit(4)->get();
+        if (!Session::get("randomizeFree")) {
+            $currentlyFree = DB::table("games")
+                ->inRandomOrder()
+                ->where("discount_percent", 100)->limit(4)->get();
+            Session::put("randomizeFree", true);
+            Session::put("currentlyFree", $currentlyFree);
+        }
+        else {
+            $currentlyFree = Session::get("currentlyFree");
+        }
         return $currentlyFree;
     }
     public function getGamesOnSale() {
@@ -74,7 +83,7 @@ class GameController extends Controller
         return $newRelease;
     }
     public function getHighlights() {
-        $games = [11,15,18,24,21,35,36,28,33,45,40,43,42,52,53];
+        $games = [11,15,24,21,35,36,28,33,45,40,43,42,56,57];
         $highlight = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
             ->inRandomOrder()
             ->whereIn("game_id", $games)
@@ -85,6 +94,7 @@ class GameController extends Controller
         Auth::logout();
         Session::put("randomizeFeatured", false);
         Session::put("randomizeSale", false);
+        Session::put("randomizeFree", false);
         $featuredGames = $this->getFeaturedGames();
         $currentlyFree = $this->getFreeGames();
         $gamesOnSale = $this->getGamesOnSale();
@@ -121,7 +131,10 @@ class GameController extends Controller
         $owned = DB::table("transaction")
             ->where("user_id", "=", Auth::user()->user_id)
             ->where("game_id", "=", $id)->first();
-        return view("gamedetails", compact("game", "wishlist", "owned"));
+        $comingsoon = DB::table("games")->where("game_id", "=", $id)
+            ->where("release_date", ">", Carbon::now()->format("Y-m-d"))
+            ->first();
+        return view("gamedetails", compact("game", "wishlist", "owned", "comingsoon"));
     }
     public function search(Request $request) {
         if ($request->search == null) {
@@ -170,9 +183,6 @@ class GameController extends Controller
         $checker = DB::table("transaction")
             ->where("user_id", "=", Auth::user()->user_id)
             ->where("game_id", "=", $game_id)->first();
-        if ($checker != null) {
-            return redirect()->route("gamedetails", $game_id);
-        }
         $user = Auth::user();
         $game = Game::selectraw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
             ->where("game_id", "=", $game_id)

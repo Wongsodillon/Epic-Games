@@ -55,9 +55,9 @@
         <img src="{{Storage::url($game->logo)}}" class="game-logo">
       </div>
       @if ($game->price == 0)
-        <p>Free</p>
+        <p style="font-size: 1.2vw;">Free</p>
       @elseif ($game->discount_percent == 0)
-        <p>IDR {{number_format($game->price)}}</p>
+        <p style="font-size: 1.2vw;">IDR {{number_format($game->price)}}</p>
       @elseif ($game->discount_percent > 0)
         <div class="price-list" style="display: flex; gap: 0.6rem; align-items: center">
           <p class="discounted-list" style="padding-inline: 0.7rem;">-{{$game->discount_percent}}%</p>
@@ -65,15 +65,29 @@
           @if($game->discount_percent == 100)
             <p class="" style="font-size: 1.2vw;">Free</p>
           @else
-            <p class="" style="font-size: 1.2vw">IDR {{number_format($game->discounted_price)}}</p>
+            <p class="" style="font-size: 1.2vw;">IDR {{number_format($game->discounted_price)}}</p>
           @endif
         </div>
       @endif
 
       @if ($owned == null)
-        <a href="{{route("checkoutpage", ["id" => $game->game_id])}}" class="buynow aside-button">
-            <div><p>BUY NOW</p></div>
-        </a>
+        @if ($comingsoon == null)
+            <a href="{{route("checkoutpage", ["id" => $game->game_id])}}" class="buynow aside-button">
+                <div>
+                    <p>
+                        @if ($game->price != 0)
+                            BUY NOW
+                        @else
+                            GET
+                        @endif
+                    </p>
+                </div>
+            </a>
+        @else
+            <a class="coming-soon">
+                COMING SOON
+            </a>
+        @endif
         @if ($wishlist == null)
             <a href="{{route("addtowishlist", ["id" => $game->game_id])}}" class= "wishlist aside-button">
                 <div>

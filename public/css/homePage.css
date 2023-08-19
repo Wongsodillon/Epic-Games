@@ -54,7 +54,7 @@ main {
     max-height: 100%;
     object-fit: cover;
     border-radius: 1rem;
-    filter: brightness(0.7);
+    filter: brightness(0.8);
     object-fit: cover;
 }
 .highlight-details {
@@ -88,6 +88,20 @@ main {
     max-width: 8rem;
     font-weight: bold;
     border-radius: 4px;
+}
+.highlight-discounts {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.highlight-discounts > p {
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+.highlight-price.disc {
+    color: #f1f1f1; text-decoration: line-through;
+    font-weight: 400;
+    font-size: 1.35vw;
 }
 .search-section {
   display: flex;

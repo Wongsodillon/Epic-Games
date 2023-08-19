@@ -16,7 +16,7 @@ class AdminController extends Controller
 {
     public function adminPage() {
         $games = DB::table("games")->join("genre", "games.genre_id", "=", "genre.genre_id")
-        ->orderBy("game_id", "asc")->get();
+        ->orderBy("game_id", "asc")->paginate(10);
         return view("admin.adminpage", compact("games"));
     }
     public function adminSearch(Request $request) {
