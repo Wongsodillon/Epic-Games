@@ -36,10 +36,5 @@
         </a>
       @endif
     @endforeach
-    @if ($search == "")
-    <div class="pagination">
-        {{ $games->links() }}
-    </div>
-    @endif
   </div>
 @endsection

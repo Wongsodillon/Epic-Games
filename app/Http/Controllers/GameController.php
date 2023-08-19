@@ -137,7 +137,7 @@ class GameController extends Controller
     {
         $games = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
             ->orderBy("name", "asc")
-            ->paginate(8);
+            ->get();
         $search = "";
         return view("search", compact("games", "search"));
     }
