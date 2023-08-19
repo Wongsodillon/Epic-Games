@@ -1,0 +1,44 @@
+.message {
+    font-size: 1.75vw;
+    margin-bottom: 2.5rem;
+}
+.search-result {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-block: 1rem;
+    column-gap: 1.5rem;
+    row-gap: 2rem;
+}
+.search-result > a {
+    width: 100%;
+}
+.searched-game {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    max-height: 100%;
+}
+.searched-game-poster {
+    width: 100%;
+    border-radius: 4px;
+    max-height: 100%;
+}
+.searched-game-discounted {
+    text-decoration: line-through;
+}
+.searched-game-title {
+}
+.leading-5 {
+    display: none;
+}
+.relative.z-0.inline-flex  {
+    display: flex;
+    gap: 1.21rem;
+}
+.relative.z-0.inline-flex > a, .relative.z-0.inline-flex > span > span {
+    display: inline;
+}
+.pagination {
+    margin-top: 2rem;
+}

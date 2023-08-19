@@ -1,0 +1,10 @@
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-block: 2rem;
+    column-gap: 1.5rem;
+    row-gap: 2rem;
+}
+.library-name {
+    font-size: 1.5vw;
+}

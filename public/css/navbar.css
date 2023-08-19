@@ -1,0 +1,26 @@
+
+nav {
+  display: flex;
+  height: 4rem;
+  background-color: #2a2a2a;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 3rem;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  gap: 2rem;
+}
+.nav-left > a > div, .nav-right > a > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease-in-out;
+}
+.nav-left > a, .nav-right > a {
+  font-size:1.25vw;
+  color: #cccccc;
+}
+
