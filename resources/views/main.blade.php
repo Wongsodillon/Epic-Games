@@ -89,7 +89,7 @@
         </div>
       @else
         <a href="{{route("gamedetails", ["id" => $highlight->game_id])}}">
-          <div class="featured-container">
+          <div class="highlight-container">
             <img src="{{Storage::url($highlight->banner)}}" class="featured-img">
             <div class="highlight-details">
                 <img src="{{Storage::url($highlight->logo)}}" class="highlight-logo">
@@ -98,7 +98,11 @@
                 @elseif ($highlight->discount_percent != 0)
                     <div class="highlight-discounts">
                         <p class="highlight-price disc">IDR {{number_format($highlight->price)}}</p>
-                        <p class="highlight-price">IDR {{number_format($highlight->discounted_price)}}</p>
+                        @if ($highlight->discounted_price == 0)
+                          <p class="highlight-price">FREE</p>
+                        @else
+                          <p class="highlight-price">IDR {{number_format($highlight->discounted_price)}}</p>
+                        @endif
                     </div>
                 @else
                     <p class="highlight-price">STARTING AT<strong style="font-size: 1.75rem;">    IDR {{number_format($highlight->discounted_price)}}</strong> </p>
@@ -118,7 +122,6 @@
         <div class="featured-container">
           <div class="featured-top">
             <p>Featured</p>
-            <a href="" class="view-more">View More</a>
           </div>
           <div class="featured-games">
             @foreach ($featuredGames as $game)
@@ -183,7 +186,7 @@
         <div class="featured-container">
           <div class="featured-top">
             <p>Games on Sale</p>
-            <a href="" class="view-more">View More</a>
+            <a href="{{route("onsale")}}" class="view-more">View More</a>
           </div>
           <div class="featured-games">
             @foreach ($gamesOnSale as $game)
@@ -211,7 +214,7 @@
           <div class="category-games-container">
             <div class="top-section">
               <p>Best Games</p>
-              <a href="" class="view-more">View More</a>
+              <a href="{{route("bestgames")}}" class="view-more">View More</a>
             </div>
             @foreach ($bestGames as $game)
               <a href="{{route("gamedetails", ["id" => $game->game_id])}}">
@@ -227,7 +230,11 @@
                       <div class="price-list" style="display: flex; gap: 0.6rem; align-items: center">
                         <p class="discounted-list" style=";">-{{$game->discount_percent}}%</p>
                         <p class="featured-game-discounted" style="font-size: 0.87vw">IDR {{number_format($game->price)}}</p>
-                        <p class="" style="font-size: 0.87vw">IDR {{number_format($game->discounted_price)}}</p>
+                        @if ($game->discounted_price == 0)
+                          <p class="" style="font-size: 1vw">FREE</p>
+                        @else
+                          <p class="" style="font-size: 0.87vw">IDR {{number_format($game->discounted_price)}}</p>
+                        @endif
                       </div>
                     @endif
                   </div>
@@ -239,7 +246,7 @@
           <div class="category-games-container">
             <div class="top-section">
               <p>Most Played</p>
-              <a href="" class="view-more">View More</a>
+              <a href="{{route("mostplayed")}}" class="view-more">View More</a>
             </div>
             @foreach ($mostPlayed as $game)
               <a href="{{route("gamedetails", ["id" => $game->game_id])}}">
@@ -255,7 +262,11 @@
                       <div class="price-list" style="display: flex; gap: 0.6rem; align-items: center">
                         <p class="discounted-list" style=";">-{{$game->discount_percent}}%</p>
                         <p class="featured-game-discounted" style="font-size: 0.87vw">IDR {{number_format($game->price)}}</p>
-                        <p class="" style="font-size: 0.87vw">IDR {{number_format($game->discounted_price)}}</p>
+                        @if ($game->discounted_price == 0)
+                          <p class="" style="font-size: 1vw">FREE</p>
+                        @else
+                          <p class="" style="font-size: 0.87vw">IDR {{number_format($game->discounted_price)}}</p>
+                        @endif
                       </div>
                     @endif
                   </div>
@@ -266,7 +277,7 @@
           <div class="category-games-container">
             <div class="top-section">
               <p>New Releases</p>
-              <a href="" class="view-more">View More</a>
+              <a href="{{route("newreleases")}}" class="view-more">View More</a>
             </div>
             @foreach ($newRelease as $game)
               <a href="{{route("gamedetails", ["id" => $game->game_id])}}">
@@ -282,7 +293,11 @@
                       <div class="price-list" style="display: flex; gap: 0.6rem; align-items: center">
                         <p class="discounted-list" style=";">-{{$game->discount_percent}}%</p>
                         <p class="featured-game-discounted" style="font-size: 0.87vw">IDR {{number_format($game->price)}}</p>
-                        <p class="" style="font-size: 0.87vw">IDR {{number_format($game->discounted_price)}}</p>
+                        @if ($game->discounted_price == 0)
+                          <p class="" style="font-size: 1vw">FREE</p>
+                        @else
+                          <p class="" style="font-size: 0.87vw">IDR {{number_format($game->discounted_price)}}</p>
+                        @endif
                       </div>
                     @endif
                   </div>

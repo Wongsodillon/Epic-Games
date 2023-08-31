@@ -68,11 +68,26 @@ class GameController extends Controller
             ->limit(5)->get();
         return $bestGames;
     }
+    public function viewBestGames() {
+        $games = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
+            ->orderBy("rating", "desc")
+            ->where("rating", ">", "4.5")
+            ->limit(28)->get();
+        $search = "Best Games";
+        return view("search", compact("games", "search"));
+    }
     public function getMostPlayed() {
         $mostPlayed = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
             ->orderBy("downloads", "desc")
             ->limit(5)->get();
         return $mostPlayed;
+    }
+    public function viewMostPlayed() {
+        $games = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
+            ->orderBy("downloads", "desc")
+            ->limit(28)->get();
+        $search = "Most Played";
+        return view("search", compact("games", "search"));
     }
     public function getNewRelease() {
         $newRelease = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
@@ -82,8 +97,19 @@ class GameController extends Controller
             ->limit(5)->get();
         return $newRelease;
     }
+    public function viewNewReleases() {
+        // get current year
+        $games = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
+            ->orderBy("release_date", "desc")
+            ->orderBy("rating", "desc")
+            ->whereYear("release_date", "=", Carbon::now()->format("Y"))
+            ->where("downloads", ">", "0")
+            ->limit(28)->get();
+        $search = "New Releases";
+        return view("search", compact("games", "search"));
+    }
     public function getHighlights() {
-        $games = [11,15,24,21,35,36,28,33,45,40,43,42,56,57];
+        $games = [11,15,24,21,35,36,28,33,45,40,43,42,54,56,57];
         $highlight = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
             ->inRandomOrder()
             ->whereIn("game_id", $games)
@@ -221,12 +247,12 @@ class GameController extends Controller
             ->get();
         return view("librarypage", compact("games"));
     }
-    public function adminSearch(Request $request) {
-        $games = Game::join("genre", "games.genre_id", "=", "genre.genre_id")
-            ->where("name", "LIKE", "%".$request->search."%")
-            ->orWhere("company", "LIKE", $request->search."%")
-            ->orWhere("genre_name", "LIKE", $request->search."%")
+    public function viewAllSales() {
+        $games = Game::selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
+            ->where("discount_percent", ">", 0)
+            ->where("discount_percent", "<", 100)
             ->get();
-        return view("admin.adminpage", compact("games"));
+        $search = "Games on Sale";
+        return view("search", compact("games", "search"));
     }
 }

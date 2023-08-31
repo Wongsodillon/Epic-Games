@@ -24,7 +24,7 @@ class AdminController extends Controller
             ->where("name", "LIKE", "%".$request->search."%")
             ->orWhere("company", "LIKE", $request->search."%")
             ->orWhere("genre_name", "LIKE", $request->search."%")
-            ->get();
+            ->paginate(10);
         return view("admin.adminpage", compact("games"));
     }
     public function addGamePage() {
@@ -123,7 +123,7 @@ class AdminController extends Controller
     }
     public function updateGame(Request $request, $id) {
         $rules = [
-            "name" => "required|min:3|max:50|",
+            "name" => "required|min:3|max:50",
             "company" => "required|min:3|max:50",
             "genre" => "required",
             "price" => "required|numeric|min:0",
@@ -137,12 +137,15 @@ class AdminController extends Controller
             "storage" => "required|min:0",
             "directx" => "required|min:0",
         ];
+        $game = Game::find($id);
+        if ($game->name != $request->name) {
+            $rules["name"] .= "|unique:games";
+        }
         $validation = Validator::make($request->all(), $rules);
         if($validation->fails()){
             $errors = $validation->errors();
             return back()->withErrors($validation)->withInput();
         }
-        $game = Game::find($id);
         $game->name = $request->name;
         $game->genre_id = $request->genre;
         $game->price = $request->price;

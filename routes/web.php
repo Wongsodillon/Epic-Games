@@ -26,6 +26,11 @@ Route::get("/registerpage", [UserController::class, "registerPage"])->name("regi
 Route::get("/search", [GameController::class, "search"])->name("search");
 Route::get("/browse", [GameController::class, "browse"])->name("browse");
 
+Route::get("/onsale", [GameController::class, "viewAllSales"])->name("onsale");
+Route::get("/bestgames", [GameController::class, "viewBestGames"])->name("bestgames");
+Route::get("/mostplayed", [GameController::class, "viewMostPlayed"])->name("mostplayed");
+Route::get("/newreleases", [GameController::class, "viewNewReleases"])->name("newreleases");
+
 Route::middleware(["auth"])->group(function() {
     Route::get("/home", [GameController::class, "userPage"])->name("home");
     Route::get("/wishlistpage", [GameController::class, "wishlistPage"])->name("wishlistpage");

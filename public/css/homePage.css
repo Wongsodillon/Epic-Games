@@ -57,6 +57,11 @@ main {
     filter: brightness(0.8);
     object-fit: cover;
 }
+.highlight-container {
+  max-width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+}
 .highlight-details {
     display: flex;
     flex-direction: column;
@@ -157,10 +162,21 @@ main {
   width: 100%;
   cursor: pointer;
 }
+.featured-game-title {
+  font-size: 1.125vw;
+  transition: text-decoration 0.15s ease-in-out;
+}
+.featured-game-title:hover {
+  text-decoration: underline;
+}
 .featured-game-poster {
   max-width: 100%;
   max-height: 100vh;
   border-radius: 4px;
+  transition: opacity 0.15s ease-in-out;
+}
+.featured-game-poster:hover {
+  opacity: 0.75;
 }
 .featured-game > p {
   text-wrap: wrap;
@@ -170,7 +186,7 @@ main {
   justify-content: space-between;
   align-items: center;
 }
-.discount-prices > p, .featured-game-price, .featured-game-title {
+.discount-prices > p, .featured-game-price {
   font-size: 1.125vw;
 }
 .featured-game-discounted, .this-game-is-free {
