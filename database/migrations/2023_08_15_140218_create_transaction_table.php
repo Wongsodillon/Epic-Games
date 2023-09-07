@@ -19,6 +19,7 @@ return new class extends Migration
             $table->primary(["user_id", "game_id"]);
             $table->foreign("user_id")->references("user_id")->on("users");
             $table->foreign("game_id")->references("game_id")->on("games");
+            $table->integer("payment");
             $table->timestamps();
         });
     }

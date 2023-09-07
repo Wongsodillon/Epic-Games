@@ -150,7 +150,6 @@ class GameController extends Controller
             ->selectRaw("*, CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
             ->where("game_id", "=",$id)
             ->first();
-        // check if user has added to wishlist
         $wishlist = DB::table("wishlist")
             ->where("user_id", "=", Auth::user()->user_id)
             ->where("game_id", "=", $id)->first();
@@ -222,14 +221,17 @@ class GameController extends Controller
             return back()->withErrors($validation);
         }
         $user_id = Auth::user()->user_id;
-        // validate if exists in transaction table
         $checker = DB::table("transaction")
             ->where("user_id", "=", $user_id)
             ->where("game_id", "=", $game_id)->first();
+        $game = Game::selectraw("CAST(price - (price * (discount_percent / 100)) AS SIGNED) as discounted_price")
+            ->where("game_id", "=", $game_id)
+            ->first();
         if ($checker == null) {
             DB::table("transaction")->insert([
                 "user_id" => $user_id,
                 "game_id" => $game_id,
+                "payment" => $game->discounted_price,
                 "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
                 "updated_at" => Carbon::now()->format('Y-m-d H:i:s')
             ]);

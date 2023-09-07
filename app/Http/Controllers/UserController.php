@@ -69,4 +69,59 @@ class UserController extends Controller
             ->get();
         return view("admin.adminpage", compact("games"));
     }
+    public function profilePage() {
+        return view("profile");
+    }
+    public function paymentPage() {
+        return view("payments");
+    }
+    public function transactionPage() {
+        // sort them based of created_at
+        $transactions = DB::table("transaction")
+            ->join("games", "transaction.game_id", "=", "games.game_id")
+            ->selectRaw("transaction.*, games.name")
+            ->where("user_id", "=", Auth::user()->user_id)
+            ->orderBy("transaction.created_at", "desc")
+            ->get();
+        return view("transactions", compact("transactions"));
+    }
+    public function updateProfile(Request $request) {
+        $rules = [
+            "username" => "required|min:3|max:20",
+            "email" => "required|email",
+        ];
+        if (Auth::user()->username != $request->username) {
+            $rules["username"] .= "|unique:users";
+        }
+        if (Auth::user()->email != $request->email) {
+            $rules["email"] .= "|unique:users";
+        }
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return back()->withErrors($validation);
+        }
+        $user = User::find(Auth::user()->user_id);
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->save();
+        return back()->with("updated", "Profile updated successfully");
+    }
+    public function updatePassword(Request $request) {
+        $rules = [
+            "current_password" => "required",
+            "new_password" => "required|min:6|max:20",
+            "retyped" => "required|same:new_password"
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return back()->withErrors($validation);
+        }
+        $user = User::find(Auth::user()->user_id);
+        if (password_verify($request->current_password, $user->password)) {
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            return back()->with("success", "Password updated successfully");
+        }
+        return back()->with(["error" => "Current password is incorrect"]);
+    }
 }

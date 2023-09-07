@@ -40,6 +40,10 @@ Route::middleware(["auth"])->group(function() {
     Route::get("/removefromwishlist/{id}", [GameController::class, "removeFromWishlist"])->name("removefromwishlist");
     Route::get("/checkoutpage/{id}", [GameController::class, "checkoutPage"])->name("checkoutpage")->middleware("checkout");
     Route::post("/addtolibrary/{id}", [GameController::class, "addToLibrary"])->name("addtolibrary");
+    Route::get("/profile", [UserController::class, "profilePage"])->name("profile");
+    Route::get("/transactions" , [UserController::class, "transactionPage"])->name("transactions");
+    Route::post("/updateprofile", [UserController::class, "updateProfile"])->name("updateprofile");
+    Route::post("/updatepassword", [UserController::class, "updatePassword"])->name("updatepassword");
 });
 
 Route::middleware(["admin"])->prefix("admin")->group(function() {

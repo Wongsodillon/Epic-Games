@@ -118,7 +118,7 @@
         </div>
         <div class="more-game-details">
           <p class="type">Release Date</p>
-          <p>{{$game->release_date}}</p>
+          <p>{{\Carbon\Carbon::parse($game->release_date)->format('d M Y')}}</p>
         </div>
         <div class="more-game-details">
           <p class="type">Platform</p>

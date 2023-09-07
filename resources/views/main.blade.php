@@ -49,7 +49,7 @@
       </a>
     </div>
     <div class="nav-right">
-      <a href="{{route("loginpage")}}">
+      <a href="{{route("profile")}}">
         <div>{{auth()->user()->username}}</div>
       </a>
       <a href="{{route("main")}}">
